@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>科技创新信用增强评估 · 演示入口</title>
+<!-- 永久入口：这个 GitHub Pages 地址不会变，只有 latest.json 里的目标链接会变。 -->
+<style>
+  :root{
+    --red:#C7000B;
+    --ink:#1A1D21;
+    --muted:#6B7280;
+    --line:#E5E7EB;
+    --bg:#F7F8FA;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",
+                "Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    display:flex;align-items:center;justify-content:center;
+    padding:24px;
+  }
+  .card{
+    width:100%;max-width:520px;
+    background:#fff;border:1px solid var(--line);border-radius:14px;
+    padding:36px 32px 30px;
+    box-shadow:0 1px 2px rgba(16,24,40,.04),0 12px 32px rgba(16,24,40,.06);
+  }
+  .brand{
+    display:flex;align-items:center;gap:9px;
+    font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--muted);font-weight:600;
+  }
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--red)}
+  h1{
+    margin:18px 0 8px;font-size:21px;line-height:1.35;font-weight:650;
+    letter-spacing:-.01em;
+  }
+  p.lead{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+  .bar{
+    position:relative;height:3px;border-radius:2px;background:var(--line);
+    margin:26px 0 22px;overflow:hidden;
+  }
+  .bar > i{
+    position:absolute;inset:0 auto 0 0;width:0;background:var(--red);
+    border-radius:2px;transition:width 1.15s ease;
+  }
+  .url{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:11.5px;line-height:1.5;color:var(--muted);
+    background:var(--bg);border:1px solid var(--line);border-radius:8px;
+    padding:10px 12px;word-break:break-all;
+  }
+  .row{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+  a.go{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--red);color:#fff;text-decoration:none;
+    font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:8px;
+  }
+  a.go:hover{background:#A80009}
+  .hint{font-size:12px;color:var(--muted)}
+  footer{margin-top:24px;padding-top:16px;border-top:1px solid var(--line);
+         font-size:11.5px;color:var(--muted);line-height:1.6}
+  @media (prefers-color-scheme: dark){
+    :root{--ink:#E8EAED;--muted:#9AA0A6;--line:#2C2F33;--bg:#141619}
+    .card{background:#1B1E22;box-shadow:0 1px 2px rgba(0,0,0,.3),0 12px 32px rgba(0,0,0,.35)}
+    .url{background:#141619}
+  }
+</style>
+</head>
+<body>
+  <main class="card">
+    <div class="brand"><span class="dot"></span>ICBC Cup · Part C</div>
+    <h1>科技创新信用增强评估</h1>
+    <p class="lead">正在前往线上演示页…　Redirecting to the live demo.</p>
+
+    <div class="bar"><i id="progress"></i></div>
+
+    <div class="url" id="target">正在读取最新链接…</div>
+
+    <div class="row">
+      <a class="go" id="go" href="#" rel="noopener">立即打开 →</a>
+      <span class="hint" id="hint">如果 3 秒后没有自动跳转，请点左边按钮。</span>
+    </div>
+
+    <footer>
+      这是一个固定入口：地址永远不变。<br>
+      演示页重新发布后只会更新 <code>latest.json</code>，本页面无需改动。
+    </footer>
+  </main>
+
+<script>
+(function () {
+  // 兜底：万一 latest.json 读取失败（离线、文件缺失），仍然能跳。
+  var FALLBACK = "https://d0fe2d03709648c0a6774af2c5bc4b1e.sg2.agentos-app.run";
+  // ?preview=1 只看样式、不跳转（用来核对页面，或截图存档）
+  var PREVIEW = /[?&]preview=1\b/.test(location.search);
+  var targetEl = document.getElementById("target");
+  var goEl = document.getElementById("go");
+  var barEl = document.getElementById("progress");
+  var hintEl = document.getElementById("hint");
+
+  function show(url) {
+    targetEl.textContent = url;
+    goEl.href = url;
+    if (PREVIEW) {
+      barEl.style.width = "100%";
+      hintEl.textContent = "预览模式：已关闭自动跳转，点按钮可手动前往。";
+      return;
+    }
+    // 让进度条先跑到满，再跳，避免白屏闪烁
+    requestAnimationFrame(function () { barEl.style.width = "100%"; });
+    setTimeout(function () { window.location.replace(url); }, 1200);
+  }
+
+  fetch("latest.json", { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (data) {
+      var url = data && typeof data.url === "string" && /^https?:\/\//.test(data.url)
+        ? data.url
+        : FALLBACK;
+      show(url);
+    })
+    .catch(function () {
+      hintEl.textContent = "读取 latest.json 失败，已使用内置链接。";
+      show(FALLBACK);
+    });
+
+  // 3 秒后如果还停在本页（自动跳转被浏览器拦截），提示手动点击
+  if (!PREVIEW) {
+    setTimeout(function () {
+      if (document.visibilityState === "visible") {
+        hintEl.textContent = "自动跳转可能被拦截了，请点击「立即打开」。";
+        barEl.style.width = "100%";
+      }
+    }, 3000);
+  }
+})();
+</script>
+</body>
+</html>
