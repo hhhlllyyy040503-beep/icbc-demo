@@ -3,7 +3,7 @@
 这个目录是一个**纯静态跳转页**。把它放到 GitHub Pages 上，你就得到一个永远不变的地址：
 
 ```
-https://<你的用户名>.github.io/<仓库名>/
+https://hhhlllyyy040503-beep.github.io/icbc-demo/
 ```
 
 打开它会自动跳到当前的线上演示页。演示页重新发布换了域名，**只需要改 `latest.json` 里的一行**，这个固定地址不变。
@@ -18,16 +18,16 @@ https://<你的用户名>.github.io/<仓库名>/
 
 ## 一次性设置
 
-1. 在 GitHub 新建一个仓库，比如 `icbc-demo`（Public，勾选 Add a README 也可以）。
-2. 把本目录的三个文件传到仓库根目录（网页上传或 `git push` 都行）。
-3. 仓库 → **Settings → Pages** → Source 选 **Deploy from a branch** → Branch 选 **main**、目录选 **/ (root)** → Save。
-4. 等 1 分钟左右，页面顶部会显示你的地址：
+1. 仓库已建好：`hhhlllyyy040503-beep/icbc-demo`（Public）。
+2. 文件已推送（`main` 分支）。本目录已与远端关联，后续直接 `git push`。
+3. Pages 已开启：`main` 分支、`/ (root)` 目录。
+4. 固定入口地址（已验证可访问）：
 
    ```
-   https://<你的用户名>.github.io/icbc-demo/
+   https://hhhlllyyy040503-beep.github.io/icbc-demo/
    ```
 
-这个地址以后**永远不变**，发给评委、写进材料都用它。
+这个地址**永远不变**，发给评委、写进材料都用它。
 
 ## 以后每次重新发布演示页
 
